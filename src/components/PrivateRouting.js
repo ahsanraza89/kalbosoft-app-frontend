@@ -9,7 +9,7 @@ const PrivateRoute = ({
   // redirectTo,
   Element,
 }) => {
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return <Navigate to={ROUTE_NAMES.SIGNUP} />; // Redirect to login or signup
   }
   if (!allowedRoles.includes(role)) {

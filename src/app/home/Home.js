@@ -3,6 +3,7 @@ import Card from '../../components/card/Card'
 
 
 export default function Home() {
+
   return (
     <div>
     
@@ -19,7 +20,8 @@ export default function Home() {
       <Card image = "/programs-include/5.jpg" title = "Microsoft Office" description ="Get advanced, professional training on MS Office and start boosting your office productivity right now!" />
       <Card image = "/programs-include/6.jpg" title = "Investor Account" description ="Become a part of Gamica Eco System as an investor and receive a valuable return!" />
       </div>
-      
+  
+     
   
     </div>
   )
