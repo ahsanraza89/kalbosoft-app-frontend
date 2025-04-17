@@ -20,7 +20,7 @@ export default function Header() {
               </li>
               <li>
                 <Link
-to={ROUTE_NAMES.CONTACT}
+                  to={ROUTE_NAMES.CONTACT}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
                   Contact Us
@@ -28,7 +28,7 @@ to={ROUTE_NAMES.CONTACT}
               </li>
               <li>
                 <Link
-                   to={"/login"}
+                  to={"/login"}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
                   Login
@@ -36,10 +36,19 @@ to={ROUTE_NAMES.CONTACT}
               </li>
               <li>
                 <Link
-                   to={"/signup"}
+                  to={"/signup"}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
                   Sign Up
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to={ROUTE_NAMES.PRODUCTS}
+                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
+                >
+                  Products
                 </Link>
               </li>
             </ul>
