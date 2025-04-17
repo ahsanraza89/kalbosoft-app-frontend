@@ -1,4 +1,3 @@
-import Home from "./app/home/Home";
 import Routes from "./app/routes";
 import Header from "./components/header/Header";
 
