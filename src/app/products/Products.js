@@ -1,17 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../../store/slices/productSlice'
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_NAMES } from '../../constants/routesConstants';
 
 export default function Products() {
-  const {products , loading , error} = useSelector((state) => state.ProuctsSlice)   
+  const [loading , setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch()
+  const {products  } = useSelector((state) => state.ProuctsSlice)   
+   
+    const dispatch = useDispatch();
+
+    const handlerOnclick = (id) => {
+      navigate(ROUTE_NAMES.PRODUCTS_DETAILS.replace(':id', id));
+      
+    }
+
   
     useEffect(() => {
-       dispatch(getProducts())
+      setLoading(true);
+       dispatch(getProducts({ callBack:(response) => {
+          if(response.status === 200){
+            alert("Products fetched successfully");
+          }else{
+            alert("Error fetching products")
+          }
+         setLoading(false)
+       }
+      }))
     }, [dispatch ])
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+    
   return (
     <>
      <h1 className='text-3xl font-bold'>Products</h1>
@@ -22,11 +42,14 @@ export default function Products() {
           <h1>{product.title}</h1>
           <p>{product.description }</p>
           <p>{product.price}</p>
-          {/* <img src={product.image} alt="" /> */}
+          <img src={product.image} alt="" />
+          <button onClick={()=>handlerOnclick(product.id)}>Product Details</button>
            </div>
+
       )
     })
    }
+  
     </>
   )
 }

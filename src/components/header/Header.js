@@ -51,6 +51,14 @@ export default function Header() {
                   Products
                 </Link>
               </li>
+              <li>
+                <Link
+                  to={ROUTE_NAMES.PRODUCTS_DETAILS}
+                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
+                >
+                  Products  Details
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
