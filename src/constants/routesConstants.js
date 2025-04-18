@@ -3,12 +3,14 @@ import Signup from "../app/signup/Signup";
 import Home from "../app/home/Home";
 import Contact from "../app/contact/Contact";
 import Products from "../app/products/Products";
+import ProductDetails from "../app/productDetails/ProductDetails";
 export const ROUTE_NAMES = {
     LOGIN : "/login" ,
     SIGNUP : "/signup" ,
     HOME : "/",
     CONTACT : "/contact",
     PRODUCTS : "/products",
+    PRODUCTS_DETAILS : "/product-details/:id",
     
 }
 
@@ -42,4 +44,10 @@ export const PRIVATE_ROUTES = [
        role: ["admin"]
      
     },
+    {
+        path : ROUTE_NAMES.PRODUCTS_DETAILS,
+       element : ProductDetails,
+       role: ["admin"]
+    }
+
 ]
