@@ -1,15 +1,36 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { API } from "../../config/config.js";
+import { PRODUCTS_ROUTES } from "../../config/routes";
 const  initialState = {
     products : [],
     error : null,
-    loading : false
+    loading : false,
+    product : {},
 }
 export const getProducts = createAsyncThunk(
     "products/getProducts",
-    async () => {
+    async ({  callBack}) => {
         try {
-            const response = await axios.get("https://fakestoreapi.com/products")
+            const response = await API.GET(PRODUCTS_ROUTES.GET);
+            if(callBack){
+                callBack(response)
+            }
+           console.log(response.data);
+           return response.data
+          } catch (error) {
+                throw error.response.data.message;
+          } 
+        }
+)
+
+export const getByIdProduct = createAsyncThunk(
+    "products/getByIdProduct",
+    async ({ id , callBack}) => {
+        try {
+            const response = await API.GET(PRODUCTS_ROUTES.GET_BY_ID.replace(':id', id));
+            if(callBack){
+                callBack(response)
+            }
            console.log(response.data);
            return response.data
           } catch (error) {
@@ -23,19 +44,22 @@ export const ProuctsSlice = createSlice({
     initialState ,
     reducers : { },
     extraReducers : (builder) => {
-        builder.addCase(getProducts.pending, (state) => {
-            state.loading = true;
-        })
-        builder.addCase(getProducts.fulfilled, (state, action) => {
+        builder
+     
+       .addCase(getProducts.fulfilled, (state, action) => {
             state.loading = false;
             state.products = action.payload;
         })
-        builder.addCase(getProducts.rejected, (state, action) => {
+       .addCase(getByIdProduct.fulfilled, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.product = action.payload;
         })
+
+        
+    
     }
 
+    
 
 })
 
