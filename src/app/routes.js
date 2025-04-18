@@ -2,10 +2,12 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PUBLIC_ROUTE, PRIVATE_ROUTES, ROUTE_NAMES } from '../constants/routesConstants';
 import PrivateRoute from '../components/PrivateRouting';
+// import { getAuthTokenData } from '../service/token';
 
 export default function routes() {
   const isAuthenticated = false; // Replace with your authentication logic
   const role = 'admin'; // Replace with your role logic
+  // const {isAuthenticated , role} = getAuthTokenData();
 
   return (
     <Routes>
