@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTE_NAMES } from '../../constants/routesConstants';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import { loginSchema } from '../../constants/yupSchema';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { logIn } from '../../store/slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const defaultValues = {
     email: '',
@@ -29,13 +34,21 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
-    
     setLoading(true);
-    setTimeout(() => {
+     dispatch(logIn({data, callBack: (response) => {
+        if (response.data.status === 200) {
+          alert('Login successful');
+          navigate(ROUTE_NAMES.HOME); // Navigate to home page on successful login
+        } else {
+          alert('Login failed');
+        }
+        setLoading(false);   
+      }
+     }))
       setLoading(false);
       alert('Form Submitted');
       reset(); // reset the form
-    }, 2000);
+   
   };
 
   return (
