@@ -1,55 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProducts } from '../../store/slices/productSlice'
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_NAMES } from '../../constants/routesConstants';
+import { deleteProduct, getProducts } from '../../store/slices/productSlice'
+import { useNavigate } from 'react-router-dom'
+import { ROUTE_NAMES } from '../../constants/routesConstants'
 
 export default function Products() {
-  const [loading , setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
-  const {products  } = useSelector((state) => state.ProuctsSlice)   
-   
-    const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.ProductsSlice)
 
-    const handlerOnclick = (id) => {
-      navigate(ROUTE_NAMES.PRODUCTS_DETAILS.replace(':id', id));
-      
-    }
+  const dispatch = useDispatch()
 
-  
-    useEffect(() => {
-      setLoading(true);
-       dispatch(getProducts({ callBack:(response) => {
-          if(response.status === 200){
-            alert("Products fetched successfully");
-          }else{
-            alert("Error fetching products")
+  const handlerOnclick = (id) => {
+    navigate(ROUTE_NAMES.PRODUCTS_DETAILS.replace(':id', id))
+  }
+  const handlerDelete =(id) => {
+    dispatch(deleteProduct({id , callBack: (response) => {
+      if(response.status === 200) {
+        dispatch(
+          getProducts({
+            callBack: (response) => { },
+          })
+        )
+        alert('Product deleted successfully')
+      }
+    }}))
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    dispatch(
+      getProducts({
+        callBack: (response) => {
+          if(response.status === 200) {
+            setLoading(false)
           }
-         setLoading(false)
-       }
-      }))
-    }, [dispatch ])
-    if (loading) return <p>Loading...</p>;
-    
-  return (
-    <>
-     <h1 className='text-3xl font-bold'>Products</h1>
-   {
-    products.map((product )=>{
-      return (
-        <div key={product.id} style={{ border: '1px solid black', margin: '10px' }}>
-          <h1>{product.title}</h1>
-          <p>{product.description }</p>
-          <p>{product.price}</p>
-          <img src={product.image} alt="" />
-          <button onClick={()=>handlerOnclick(product.id)}>Product Details</button>
-           </div>
+                  },
+      })
+    )
+  }, [dispatch])
 
-      )
-    })
-   }
-  
-    </>
+  if (loading) return <p className="text-center text-xl font-semibold">Loading...</p>
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Products</h1>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="bg-white rounded-lg shadow-md p-4 flex flex-col "
+          >
+           
+            <h2 className="text-lg font-semibold mb-1 truncate">{product.title}</h2>
+            <p className="text-sm text-gray-600 line-clamp-2 mb-2">{product.description}</p>
+            <p className="text-indigo-600 font-bold text-lg mb-4">${product.price}</p>
+            <button
+              onClick={() => handlerOnclick(product._id)}
+              className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 
+              "
+            >
+              Product Details
+            </button>
+            <button
+              onClick={() => handlerDelete(product._id)}
+              className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 
+              "
+            >
+              Product Delete
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

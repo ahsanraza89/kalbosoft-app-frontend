@@ -1,24 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { API } from "../../config/config";
+import { AUTH_ROUTES } from "../../config/routes";
 const initialState = {
     user: {},
     error: null,
     loading: false,
     token: null,
 }
-// {
-//     token:'efefer43543re',
-//     user : {
-//         name : "John Doe",
-//         email : "isdis',
-//     }
-
-// }
 export const logIn = createAsyncThunk(
     "auth/login",
     async ({ data, callBack }) => {
         try {
-            const response = await axios.post("https://fakestoreapi.com/products", data);
+            const response = await API.POST(AUTH_ROUTES.LOGIN, data);
             if (callBack) {
                 callBack(response)
             }
@@ -29,7 +22,6 @@ export const logIn = createAsyncThunk(
             localStorage.setItem("token", response.data.token);
 
 
-            console.log(response.data);
             return response.data
         } catch (error) {
             if (callBack) {
@@ -42,7 +34,28 @@ export const logIn = createAsyncThunk(
     
 )
 
-export const AuthSlice = createSlice({
+export const signUp = createAsyncThunk(
+    "auth/signup",
+    async ({data , callBack}) =>{
+         try {
+            const response = await API.POST(AUTH_ROUTES.SIGNUP, data);
+            
+
+            if(response){
+                callBack(response)
+            }
+            
+           return response.data;
+         } catch (error) {
+            if (callBack) {
+                callBack(error.response)
+            }
+            throw error.response.data.message;
+         }
+    })
+
+
+ export const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {},
@@ -54,11 +67,15 @@ export const AuthSlice = createSlice({
             state.loading = false;
             state.user = action.payload.user;
             state.token = action.payload.token;
-        })
+        }) ;
         // builder.addCase(logIn.rejected, (state, action) => {
         //     state.loading = false;
         //     state.error = action.payload;
         // })
+       
+        builder.addCase(signUp.fulfilled , (state , action)=>{
+            state.loading = false;
+        })
     }
 
 

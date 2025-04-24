@@ -6,12 +6,18 @@ import Button from '../../components/button/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupSchema } from '../../constants/yupSchema';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_NAMES } from '../../constants/routesConstants';
 
 export default function Signup() {
 
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const defaultValues = {
-    name: "",
+    // name: "",
     email: "",
     password: ""
   }
@@ -25,9 +31,16 @@ export default function Signup() {
 
   const onSubmit = (data) => {
     alert("form Submitted")
-    console.log(data);
 
     setLoading(true);
+    dispatch(signUp({data , callBack: (response)=>{
+       if(response.status === 201){
+        alert("signup successfull");
+        navigate(ROUTE_NAMES.LOGIN)
+       }else{
+        alert("login failed");
+       }
+    }}))
 
     setTimeout(() => {
       setLoading(false);
@@ -40,7 +53,7 @@ export default function Signup() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg bg-white p-10 rounded-lg shadow-md">
 
-        <div className="mb-6">
+        {/* <div className="mb-6">
 
           <label
             htmlFor="name"
@@ -59,7 +72,7 @@ export default function Signup() {
             />
           )} />
           <p className="text-red-500">{errors.name?.message}</p>
-        </div>
+        </div> */}
 
         <div className="mb-6">
           <label

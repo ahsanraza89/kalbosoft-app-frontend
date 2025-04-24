@@ -1,8 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import { ROUTE_NAMES } from '../../constants/routesConstants'
 
 export default function Header() {
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+  }
   return (
     <div>
       <nav className="bg-gray-50 py-2 dark:bg-gray-100 flex  justify-center items-center">
@@ -28,6 +31,22 @@ export default function Header() {
               </li>
               <li>
                 <Link
+                  to={ROUTE_NAMES.CREATE_PRODUCT}
+                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
+                >
+                  Create Products
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={ROUTE_NAMES.PRODUCTS}
+                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link
                   to={"/login"}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
@@ -44,21 +63,14 @@ export default function Header() {
               </li>
 
               <li>
-                <Link
-                  to={ROUTE_NAMES.PRODUCTS}
+                <button
+                  onClick={handleLogout}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
-                  Products
-                </Link>
+                  logout
+                </button>
               </li>
-              <li>
-                <Link
-                  to={ROUTE_NAMES.PRODUCTS_DETAILS}
-                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
-                >
-                  Products  Details
-                </Link>
-              </li>
+          
             </ul>
           </div>
         </div>

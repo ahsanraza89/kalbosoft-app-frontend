@@ -33,10 +33,9 @@ export default function Login() {
   } = methods;
 
   const onSubmit = (data) => {
-    console.log(data);
     setLoading(true);
      dispatch(logIn({data, callBack: (response) => {
-        if (response.data.status === 200) {
+        if (response.status === 200) {
           alert('Login successful');
           navigate(ROUTE_NAMES.HOME); // Navigate to home page on successful login
         } else {

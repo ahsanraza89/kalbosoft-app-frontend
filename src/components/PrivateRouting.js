@@ -6,14 +6,13 @@ const PrivateRoute = ({
   isAuthenticated,
   role,
   allowedRoles,
-  // redirectTo,
   Element,
 }) => {
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to={ROUTE_NAMES.SIGNUP} />; // Redirect to login or signup
   }
   if (!allowedRoles.includes(role)) {
-    return <Navigate to={ROUTE_NAMES.SIGNUP} />; // Show "Not Authorized" message for invalid roles
+    return <Navigate to={ROUTE_NAMES.NOT_AUTHORIZED} />; // Redirect to "Not Authorized" page
   }
   return <Element />;
 };

@@ -3,7 +3,7 @@ import Input from '../../components/input/Input'
 
 export default function Contact() {
     const [email ,setEmail] = useState("");
-    console.log(email);
+  
 
   return (
     <div>

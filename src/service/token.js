@@ -18,8 +18,7 @@ export const getAuthTokenData = () => {
         isAuthenticated: true,
         role: decodedToken.role,
         userId: decodedToken.userId,
-        username: decodedToken.username,
-        type: decodedToken.type,
+        email: decodedToken.email,
       };
     }
   } catch (error) {

@@ -14,10 +14,10 @@ export const loginSchema = Yup.object().shape({
 });
 
 export const signupSchema = Yup.object().shape({
-  name: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required'),
+  // name: Yup.string()
+  // .min(2, 'Too Short!')
+  // .max(50, 'Too Long!')
+  // .required('Required'),
   email: Yup.string().email().required("Email is Required."),
   password: Yup.string()
     .required("No password provided.")

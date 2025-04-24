@@ -2,12 +2,13 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PUBLIC_ROUTE, PRIVATE_ROUTES, ROUTE_NAMES } from '../constants/routesConstants';
 import PrivateRoute from '../components/PrivateRouting';
-// import { getAuthTokenData } from '../service/token';
+import { getAuthTokenData } from '../service/token';
 
-export default function routes() {
-  const isAuthenticated = false; // Replace with your authentication logic
+export default function Index() {
   const role = 'admin'; // Replace with your role logic
-  // const {isAuthenticated , role} = getAuthTokenData();
+
+  const { isAuthenticated } = getAuthTokenData();
+
 
   return (
     <Routes>
@@ -20,8 +21,7 @@ export default function routes() {
               <PrivateRoute
                 isAuthenticated={isAuthenticated}
                 role={role}
-               allowedRoles={value.role} 
-                // redirectTo={ROUTE_NAMES.SIGNUP} // Redirect to login if not authenticated
+                allowedRoles={value.role}
                 Element={value.element}
               />
             }
