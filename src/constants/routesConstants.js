@@ -5,6 +5,7 @@ import Contact from "../app/contact/Contact";
 import Products from "../app/products/Products";
 import ProductDetails from "../app/productDetails/ProductDetails";
 import CreateProducts from "../app/createProduct/Create";
+import Cart from "../app/cart/Cart";
 export const ROUTE_NAMES = {
     LOGIN : "/login" ,
     SIGNUP : "/signup" ,
@@ -13,6 +14,7 @@ export const ROUTE_NAMES = {
     PRODUCTS : "/products",
     PRODUCTS_DETAILS : "/product-details/:id",
     CREATE_PRODUCT : "/create-products",
+    CART : "/cart",
     
 }
 
@@ -55,6 +57,11 @@ export const PRIVATE_ROUTES = [
         path : ROUTE_NAMES.CREATE_PRODUCT,
        element : CreateProducts,
        role: ["admin"]
+    } ,
+    {
+        path :ROUTE_NAMES.CART,
+        element : Cart,
+        role: ["admin"]
     }
 
 ]

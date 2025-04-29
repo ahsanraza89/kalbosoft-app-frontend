@@ -47,7 +47,7 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to={"/login"}
+                  to={ROUTE_NAMES.LOGIN}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
                   Login
@@ -55,10 +55,19 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to={"/signup"}
+                  to={ROUTE_NAMES.SIGNUP}
                   className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
                 >
                   Sign Up
+                </Link>
+              </li>
+              
+              <li>
+                <Link
+                  to={"/cart"}
+                  className="text-gray-900 text-base font-bold dark:text-gray  hover:underline"
+                >
+                 Cart
                 </Link>
               </li>
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 // Axios instance with correct baseURL
 export const apiConfig = axios.create({
-  baseURL: `http://192.168.100.73:5000/api`,
+  baseURL: `http://localhost:5000/api`,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
