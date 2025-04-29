@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../../store/slices/productSlice';
+import { toast } from 'react-toastify';
 
 
 export default function CreateProducts() {
@@ -25,11 +26,12 @@ export default function CreateProducts() {
             data :form , 
             callBack: (response) => {
         if(response.status === 200){
-            alert("Product created successfully");
+          toast.success("Product created successfully")
+         
             navigate("/products")
         }      
         else{
-            alert("Product creation failed")
+           toast.error("Product creation failed")
         }
 
     }}))

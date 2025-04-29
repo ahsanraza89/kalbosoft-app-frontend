@@ -19,6 +19,7 @@ export const addToCart = createAsyncThunk(
             if(callBack){
                 callBack(response)
             }
+            console.log("🚀 ~ response.data:", response.data)
             return response.data;
 
         } catch (error) {
@@ -33,9 +34,9 @@ export const addToCart = createAsyncThunk(
 
 export const getCart = createAsyncThunk(
     "cart/getCart",
-    async ({data , callBack} ) =>{
+    async ({ callBack} ) =>{
         try {
-            const response = await API.GET(CART_ROUTES.GET_CART , data);
+            const response = await API.GET(CART_ROUTES.GET_CART );
             if(callBack){
                 callBack(response)
             }
@@ -70,7 +71,6 @@ export const removeFromCart = createAsyncThunk(
 )
 
 
-
 export const deleteCart = createAsyncThunk(
     "cart/deleteCart",
     async ({id , callBack}) =>{
@@ -97,23 +97,20 @@ export const CartSlice = createSlice({
         builder
         .addCase(addToCart.fulfilled , (state , action)=>{
             state.loading = false;
-            state.cart = action.payload.cart;
-            state.totalPrice = action.payload.totalPrice;
+      
         })
         .addCase(getCart.fulfilled , (state , action) =>{
             state.loading = false;
-            state.cart = action.payload.cart;
-            state.totalPrice = action.payload.totalPrice;
+            state.cart = action.payload.cart.items;
+            state.totalPrice = action.payload.cart.totalPrice;
         })
         .addCase(removeFromCart.fulfilled , (state , action) =>{
             state.loading = false;
-            state.cart = action.payload.cart;
-            state.totalPrice = action.payload.totalPrice;
+         
         })
         .addCase(deleteCart.fulfilled , (state , action) =>{
             state.loading = false;
-            state.cart = action.payload.cart;
-            state.totalPrice = action.payload.totalPrice;
+          
         })
     } 
 

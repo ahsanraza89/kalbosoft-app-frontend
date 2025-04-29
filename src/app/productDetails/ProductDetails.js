@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import {  useParams } from 'react-router-dom'
 import { getByIdProduct } from '../../store/slices/productSlice';
+import { addToCart } from '../../store/slices/cartSlice';
+import { toast } from 'react-toastify';
 
 
 export default function ProductDetails() {
@@ -11,10 +13,7 @@ export default function ProductDetails() {
   const params = useParams();
   let dispatch = useDispatch();
   const { id } = params;
-
-
-
-
+ 
 
   useEffect(() => {
    if(id ){
@@ -29,6 +28,27 @@ export default function ProductDetails() {
 );
    }
   }, [id ,dispatch]);
+
+  const handleAddToCart = () =>{
+
+    const data = {
+      productId : product._id,
+      quantity : 1
+    }
+    // Logic to add the product to the cart
+    console.log("Product added to cart:", product);
+    dispatch(addToCart({data , callBack : (response) => {
+      if(response.status === 200){
+        console.log("Product added to cart successfully")
+        toast.success("Product added to cart successfully")
+      }
+      else{
+        console.log("Failed to add product to cart")
+        toast.error("Failed to add product to cart")
+      }
+    }}))
+ 
+  }
 
   if(loading)return <p className="text-center text-xl font-semibold">Loading...</p>
 
@@ -56,7 +76,8 @@ export default function ProductDetails() {
             <p className="text-gray-700 mb-6">{product.description}</p>
             
             <div className="flex space-x-4 mb-6">
-              <button className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <button onClick={handleAddToCart} 
+              className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

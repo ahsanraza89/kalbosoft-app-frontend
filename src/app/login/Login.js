@@ -8,6 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { logIn } from '../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -36,15 +37,17 @@ export default function Login() {
     setLoading(true);
      dispatch(logIn({data, callBack: (response) => {
         if (response.status === 200) {
-          alert('Login successful');
+          toast.success('Login successful!');
           navigate(ROUTE_NAMES.HOME); // Navigate to home page on successful login
         } else {
-          alert('Login failed');
+          toast.error('Login failed!')
+         
         }
         setLoading(false);   
       }
      }))
       setLoading(false);
+    
       alert('Form Submitted');
       reset(); // reset the form
    

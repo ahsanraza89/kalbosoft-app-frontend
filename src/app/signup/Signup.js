@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { signUp } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_NAMES } from '../../constants/routesConstants';
+import { toast } from 'react-toastify';
 
 export default function Signup() {
 
@@ -35,10 +36,10 @@ export default function Signup() {
     setLoading(true);
     dispatch(signUp({data , callBack: (response)=>{
        if(response.status === 201){
-        alert("signup successfull");
+       toast.success("signup successfull");
         navigate(ROUTE_NAMES.LOGIN)
        }else{
-        alert("login failed");
+       toast.error("signup failed")
        }
     }}))
 
