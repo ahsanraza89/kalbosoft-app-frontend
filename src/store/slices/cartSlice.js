@@ -70,6 +70,29 @@ export const removeFromCart = createAsyncThunk(
     }
 )
 
+export const quantityUpdate = createAsyncThunk( 
+  "cart/quantityUpdate",
+  async ({ id, data, callBack }) => {
+    console.log("🚀 ~ data:", data)
+    console.log("🚀 ~ id:", id)
+    try {
+      const response = await API.PUT(
+        CART_ROUTES.QUANTITY_UPDATE.replace(":id", id),
+        data
+      );
+      if (callBack) {
+        callBack(response);
+      }
+      return response.data;
+    } catch (error) {
+      if (callBack) {
+        callBack(error.response);
+      }
+      throw error.response.data.message;
+    }
+  }
+)
+
 
 export const deleteCart = createAsyncThunk(
     "cart/deleteCart",
@@ -108,8 +131,14 @@ export const CartSlice = createSlice({
             state.loading = false;
          
         })
+        .addCase(quantityUpdate.fulfilled , (state , action) =>{
+            state.loading = false;
+        
+        })
+
         .addCase(deleteCart.fulfilled , (state , action) =>{
             state.loading = false;
+            
           
         })
     } 

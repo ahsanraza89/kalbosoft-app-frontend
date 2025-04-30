@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCart } from '../../store/slices/cartSlice'
+import { getCart, quantityUpdate, removeFromCart } from '../../store/slices/cartSlice'
+import { toast } from 'react-toastify'
 
 export default function Cart() {
 
@@ -12,6 +13,34 @@ useEffect (()=>{
 
     dispatch(getCart({}))
 }, [dispatch])
+
+
+const handleRemoveItem = (id) => {
+  
+     dispatch(removeFromCart({id , callBack : (response) => {
+     
+       if(response.status === 200){
+         dispatch(getCart({ }))
+         alert("Item removed from cart")
+       }
+     }}))
+
+}
+
+const handleUpdate = ({id , quantity}) =>{
+    console.log("🚀 ~ handleUpdate ~ id:", id)
+    console.log("🚀 ~ handleUpdate ~ quantity:", quantity)
+    
+    dispatch(quantityUpdate({id , data:{ quantity} , callBack : (response) =>{
+        if(response.status === 200){
+            dispatch(getCart({}))
+            toast.success("Item quantity updated")
+        }else{
+          toast.error("Something went wrong")
+        }
+    }}))
+}
+
   return (
     <div>
       
@@ -28,24 +57,31 @@ useEffect (()=>{
             <th className="text-left px-2 py-2">Title</th>
             <th className="px-2 py-2">Price</th>
             <th className="px-2 py-2">Quantity</th>
-            <th className="px-2 py-2">Subtotal</th>
+            
             <th className="w-7 px-2 py-2" />
           </tr>
         </thead>
         <tbody>
   {cart.map((item, index) => (
-          <tr className="text-center">
+          <tr key={index} className="text-center">
             <td className="px-2 py-2 text-left align-top">
+              <span>{item.product.title}</span>
               <img
                 src="https://iili.io/3FqLBsI.png"
                 alt="test"
                 className="w-[100px] mr-2 inline-block h-[100px]"
               />
-              <span>{item.product.title}</span>
             </td>
+
+
             <td className="px-2 py-2">{item.product.price}</td>
-            <td className="p-2 mt-9 bg-white rounded-[170px] border border-[#a0a0a0] justify-around items-center flex">
-              <svg
+
+
+            <td  className="p-2 mt-9 bg-white rounded-[170px] border border-[#a0a0a0] justify-around items-center flex">
+            <svg onClick={() => handleUpdate({
+ id: item.product._id,
+  quantity: item.quantity - 1
+})}
                 width={14}
                 height={15}
                 className="cursor-pointer"
@@ -61,10 +97,14 @@ useEffect (()=>{
                   strokeLinejoin="round"
                 />
               </svg>
+
               <span className="w-10 text-center text-[#191919] text-base font-normal leading-normal">
-                5
+                {item.quantity} 
               </span>
-              <svg
+              <svg onClick={() => handleUpdate({
+                id: item.product._id,
+                quantity: item.quantity + 1
+              })}
                 className="cursor-pointer relative"
                 width={14}
                 height={15}
@@ -81,8 +121,10 @@ useEffect (()=>{
                 />
               </svg>
             </td>
-            <td className="px-2 py-2">
-              <svg
+
+
+            <td className="px-2 py-2" >
+              <svg   onClick={()=>handleRemoveItem(item.product._id) }
                 width={24}
                 className="cursor-pointer"
                 height={25}
@@ -110,24 +152,15 @@ useEffect (()=>{
                   strokeLinejoin="round"
                 />
               </svg>
+
             </td>
+
+
+         
           </tr>
            ))}
         </tbody>
-        <tfoot>
-          <tr className="border-t border-gray-400">
-            <td className="px-2 py-2" colSpan={3}>
-              <button className="px-8 cursor-pointer py-3.5 bg-[#f2f2f2] rounded-[43px] text-[#4c4c4c] text-sm font-semibold className leading-[16px]">
-                Return to shop
-              </button>
-            </td>
-            <td className="px-2 py-2" colSpan={2}>
-              <button className="px-8 py-3.5 cursor-pointer bg-[#f2f2f2] rounded-[43px] text-[#4c4c4c] text-sm font-semibold className leading-[16px]">
-                Update Cart
-              </button>
-            </td>
-          </tr>
-        </tfoot>
+         
       </table> 
     </div>
    
@@ -141,7 +174,7 @@ useEffect (()=>{
           Total:
         </span>
         <span className="text-[#191919] text-base font-semibold leading-tight">
-          $84.00
+          {totalPrice}
         </span>
       </div>
       <div className="w-[376px] py-3 shadow-[0px_1px_0px_0px_rgba(229,229,229,1.00)] justify-between items-center flex">
@@ -157,7 +190,7 @@ useEffect (()=>{
           Subtotal:
         </span>
         <span className="text-[#191919] text-sm font-medium leading-[21px]">
-          $84.00
+          {totalPrice}
         </span>
 
       </div>

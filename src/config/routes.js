@@ -17,7 +17,7 @@ export const CART_ROUTES = {
     ADD_TO_CART : "/cart/add",
     GET_CART : "/cart/get",
     REMOVE_FROM_CART : "/cart/remove/:id",
-    UPDATE_QUANTITY : "/cart/quantity/:id",
+    QUANTITY_UPDATE : "/cart/quantity/:id",
     DELETE_CART : "/cart/delete/:id",
 
 }
