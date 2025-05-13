@@ -4,12 +4,15 @@ import {  useParams } from 'react-router-dom'
 import { getByIdProduct } from '../../store/slices/productSlice';
 import { addToCart } from '../../store/slices/cartSlice';
 import { toast } from 'react-toastify';
+import { addReview } from '../../store/slices/reviewSlice';
 
 
 export default function ProductDetails() {
 
   const product = useSelector((state) => state.ProductsSlice.product);
   const [loading ,setLoading] = useState(true);  
+  const [reviewText, setReviewText] =  useState("");
+
   const params = useParams();
   let dispatch = useDispatch();
   const { id } = params;
@@ -50,6 +53,29 @@ export default function ProductDetails() {
  
   }
 
+  const reviewHandler = () =>{
+ 
+    const data = {
+    text : reviewText,
+
+    }
+
+    dispatch(addReview({data , id, callBack : (response) => {
+      if(response.status === 200){
+        console.log("Review added successfully")
+        toast.success("Review added successfully")
+        dispatch(getByIdProduct({id }))
+      }
+      else{
+        console.log("Failed to add review")
+        toast.error("Failed to add review")
+      }
+    }                           
+
+    })) 
+  }
+
+
   if(loading)return <p className="text-center text-xl font-semibold">Loading...</p>
 
   return (
@@ -74,6 +100,10 @@ export default function ProductDetails() {
               <span className="text-gray-500 line-through">${(product.price * 1.2).toFixed(2)}</span> {/* For example, if the original price is 20% more */}
             </div>
             <p className="text-gray-700 mb-6">{product.description}</p>
+
+                   
+
+         
             
             <div className="flex space-x-4 mb-6">
               <button onClick={handleAddToCart} 
@@ -94,7 +124,26 @@ export default function ProductDetails() {
                 </svg>
                 Add to Cart
               </button>
-            </div>
+     
+           </div>
+     
+
+              <textarea value={reviewText} 
+               onChange={(e)=>{ setReviewText(e.target.value)
+                console.log(e.target.value)}
+               }               
+               placeholder='Write your review here...'
+
+              />
+   
+              <button onClick={reviewHandler}>Submit it</button>
+               
+                 <h3 className="text-lg font-semibold mb-2">Product Reviews</h3>
+                      { product.reviews.map((review, index) => (
+                     <p key={index} className="text-gray-700 mb-6">{review.text}</p>
+                      ))}
+                     
+             
           </div>
         </div>
       </div>

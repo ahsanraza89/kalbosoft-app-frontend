@@ -21,3 +21,8 @@ export const CART_ROUTES = {
     DELETE_CART : "/cart/delete/:id",
 
 }
+
+export const REVIEW_ROUTES = {
+    ADD_REVIEW : "/review/:id",
+    
+}
