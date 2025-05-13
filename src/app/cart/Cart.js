@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCart, quantityUpdate, removeFromCart } from '../../store/slices/cartSlice'
+import { deleteCart, getCart, quantityUpdate, removeFromCart } from '../../store/slices/cartSlice'
 import { toast } from 'react-toastify'
 
 export default function Cart() {
 
     const { cart , totalPrice } = useSelector((state) => state.CartSlice)
+    const {userId} = useSelector((state) => state.AuthSlice)
     console.log("🚀 ~ Cart ~ cartItems:", cart)
 
   const dispatch = useDispatch()
 useEffect (()=>{
 
     dispatch(getCart({}))
-}, [dispatch])
+}, [dispatch ])
 
 
 const handleRemoveItem = (id) => {
@@ -41,6 +42,17 @@ const handleUpdate = ({id , quantity}) =>{
     }}))
 }
 
+const handleDeleteCart = (id)=>{
+   dispatch(deleteCart({id , callBack : (response) =>{
+    if(response.status === 200){
+      dispatch(getCart({userId}))
+      toast.success("Cart cleared")
+    }else{
+      toast.error("Something went wrong")
+    }
+   }}))
+
+}
   return (
     <div>
       
@@ -154,13 +166,15 @@ const handleUpdate = ({id , quantity}) =>{
               </svg>
 
             </td>
-
-
-         
+     
           </tr>
            ))}
+    
+          
         </tbody>
-         
+        <button onClick={()=>handleDeleteCart(userId)} className="w-[300px] text-white mt-5 px-10 py-4 bg-[#00b206] rounded-[44px] gap-4 text-base font-semibold leading-tight">
+        Clear Cart
+      </button>
       </table> 
     </div>
    
