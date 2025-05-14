@@ -24,3 +24,15 @@ export const signupSchema = Yup.object().shape({
     .min(8, "Password is too short - should be 8 chars minimum.")
     .matches(/(?=.*[0-9])/, "Password must contain a number."),
 });
+
+export const resetPasswordScehma  = Yup.object().shape({
+  
+    password: Yup.string()
+        .min(8, 'Password must be at least 8 characters')
+        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+        .required('Required'),
+
+    confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Required'),
+});

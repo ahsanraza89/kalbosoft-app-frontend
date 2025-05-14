@@ -6,6 +6,8 @@ import Products from "../app/products/Products";
 import ProductDetails from "../app/productDetails/ProductDetails";
 import CreateProducts from "../app/createProduct/Create";
 import Cart from "../app/cart/Cart";
+import Reset from "../app/resetPassword/Reset";
+import Forget from "../app/forgetPassword/Forget";
 export const ROUTE_NAMES = {
     LOGIN : "/login" ,
     SIGNUP : "/signup" ,
@@ -15,6 +17,8 @@ export const ROUTE_NAMES = {
     PRODUCTS_DETAILS : "/product-details/:id",
     CREATE_PRODUCT : "/create-products",
     CART : "/cart",
+    FORGET_PASSWORD : "/forget-password",
+    RESET_PASSWORD : "/reset-password",
     
 }
 
@@ -28,6 +32,19 @@ export const PUBLIC_ROUTE = [
         path : ROUTE_NAMES.SIGNUP,
        element : Signup
     },
+      {
+        path : ROUTE_NAMES.FORGET_PASSWORD,
+        element : Forget,
+         
+
+    },
+    {
+          path : ROUTE_NAMES.RESET_PASSWORD,
+        element : Reset,
+           
+    }
+
+   
 ]
 
 
@@ -62,6 +79,6 @@ export const PRIVATE_ROUTES = [
         path :ROUTE_NAMES.CART,
         element : Cart,
         role: ["admin"]
-    }
-
+    },
+   
 ]

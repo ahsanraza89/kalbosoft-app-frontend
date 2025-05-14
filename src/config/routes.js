@@ -10,6 +10,7 @@ export const PRODUCTS_ROUTES = {
 export const AUTH_ROUTES = {
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
+
   
 }
 
