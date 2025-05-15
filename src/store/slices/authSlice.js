@@ -54,6 +54,37 @@ export const signUp = createAsyncThunk(
          }
     })
 
+    export const forgetPassword  = createAsyncThunk(
+        "auth/forgetPassword" ,
+        async ({data , callBack}) =>{
+            try {
+                const response = await API.POST(AUTH_ROUTES.FORGET_PASSWORD , data);
+                if(response){
+                    callBack(response)
+                }
+            } catch (error) {
+                    if (callBack) {
+                        callBack(error.response)
+                    }
+            }
+        }
+       )
+
+       export const resetPassword  = createAsyncThunk(
+        "auth/resetPassword" ,
+        async ({payload ,token , callBack}) =>{
+            try {
+                const response = await API.POST(AUTH_ROUTES.RESET_PASSWORD.replace(":token" , token) , payload , );
+                if(response){
+                    callBack(response)
+                }
+            } catch (error) {
+                    if (callBack) {
+                        callBack(error.response)
+                    }
+            }
+        }
+       )
 
  export const AuthSlice = createSlice({
     name: "auth",
@@ -76,6 +107,13 @@ export const signUp = createAsyncThunk(
         builder.addCase(signUp.fulfilled , (state , action)=>{
             state.loading = false;
         })
+         builder.addCase(forgetPassword.fulfilled ,(state ,action)=>{
+            state.loading = false;
+         })
+        
+         builder.addCase(resetPassword.fulfilled ,(state ,action)=>{
+            state.loading = false;
+         })
     }
 
 

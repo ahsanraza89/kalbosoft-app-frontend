@@ -83,14 +83,14 @@
 
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ROUTE_NAMES } from '../../constants/routesConstants';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { loginSchema } from '../../constants/yupSchema';
+import { forgetPasswordSchema, } from '../../constants/yupSchema';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { logIn } from '../../store/slices/authSlice';
+import { forgetPassword } from '../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -101,40 +101,42 @@ export default function Forget() {
 
 
   const defaultValues = {
-   password : ''
+    email: ''
 
   };
-  
+
   const methods = useForm({
     defaultValues,
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(forgetPasswordSchema),
   });
 
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
+
   } = methods;
 
   const onSubmit = (data) => {
+    console.log("🚀 ~ onSubmit ~ data:", data)
     setLoading(true);
-     dispatch(logIn({data, callBack: (response) => {
+
+    dispatch(forgetPassword({
+      data, callBack: (response) => {
+        console.log("🚀 ~ dispatch ~ data:", data)
         if (response.status === 200) {
-          toast.success('Login successful!');
-          navigate(ROUTE_NAMES.HOME); // Navigate to home page on successful login
+          toast.success('Reset password link sent to your email!');
+          navigate(ROUTE_NAMES.RESET_PASSWORD); // Navigate to home page on successful login
         } else {
-          toast.error('Login failed!')
-         
+          toast.error('failed to send reset password link!')
+
         }
-        setLoading(false);   
+        setLoading(false);
       }
-     }))
-      setLoading(false);
-    
-      alert('Form Submitted');
-      reset(); // reset the form
-   
+    }))
+
+
+
   };
 
   return (
@@ -157,7 +159,7 @@ export default function Forget() {
           />
           <p style={{ color: 'red' }}>{errors.email?.message}</p>
 
-        
+
 
           {/* Submit Button */}
           <Button style={{ marginTop: '20px', textAlign: 'center', color: '#555' }}
@@ -168,8 +170,8 @@ export default function Forget() {
           />
         </form>
 
-      
-        
+
+
       </div>
     </div>
   );

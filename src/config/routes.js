@@ -10,6 +10,8 @@ export const PRODUCTS_ROUTES = {
 export const AUTH_ROUTES = {
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
+    FORGET_PASSWORD: "/auth/forget-password",
+    RESET_PASSWORD: "/auth/reset-password/:token",
 
   
 }

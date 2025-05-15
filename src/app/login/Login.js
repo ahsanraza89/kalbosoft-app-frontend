@@ -86,6 +86,10 @@ export default function Login() {
             )}
           />
           <p style={{ color: 'red' }}>{errors.password?.message}</p>
+            
+           <Link to={ROUTE_NAMES.FORGET_PASSWORD} style={{ color: '#007bff', textDecoration: 'none', float: 'right' }}>
+            Forget Password?  
+          </Link>
 
           {/* Submit Button */}
           <Button

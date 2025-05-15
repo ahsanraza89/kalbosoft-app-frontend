@@ -111,14 +111,14 @@
 
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useLocation, useNavigate,  } from 'react-router-dom';
 import { ROUTE_NAMES } from '../../constants/routesConstants';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import {  resetPasswordScehma } from '../../constants/yupSchema';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { logIn } from '../../store/slices/authSlice';
+import {  resetPassword } from '../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -126,6 +126,12 @@ export default function Reset() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ const location = useLocation();
+
+  // Extract token from URL
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get('token');
+  console.log("🚀 ~ Reset ~ token:", token)
 
 
   const defaultValues = {
@@ -143,17 +149,24 @@ export default function Reset() {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
+
   } = methods;
 
+  
+
   const onSubmit = (data) => {
+  
+    const payload = {
+      newPassword: data.password,
+      
+    };
     setLoading(true);
-     dispatch(logIn({data, callBack: (response) => {
+     dispatch(resetPassword({payload, token , callBack: (response) => {
         if (response.status === 200) {
-          toast.success('Login successful!');
+          toast.success('password reset successfully!');
           navigate(ROUTE_NAMES.HOME); // Navigate to home page on successful login
         } else {
-          toast.error('Login failed!')
+          toast.error('password reset failed!')
          
         }
         setLoading(false);   
@@ -161,8 +174,8 @@ export default function Reset() {
      }))
       setLoading(false);
     
-      alert('Form Submitted');
-      reset(); // reset the form
+      alert('request submit');
+      
    
   };
 
